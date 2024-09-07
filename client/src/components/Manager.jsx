@@ -1,59 +1,92 @@
 import React, { useRef, useState } from 'react'
 import { useAuth0 } from "@auth0/auth0-react";
+import { ToastContainer, toast , Bounce} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Manager = () => {
     const { user, isAuthenticated, isLoading } = useAuth0();
     const [form, setform] = useState({ site: "", username: "", password: "" })
     const [visible, setVisible] = useState(false);
-    const [PassArray, setPassArray] = useState([
-        {
-          "site": "https://www.example.com",
-          "username": "user1",
-          "password": "password123"
-        },
-        {
-          "site": "https://www.anotherexample.com",
-          "username": "user2",
-          "password": "mypassword456"
-        },
-        {
-          "site": "https://www.yetanotherexample.com",
-          "username": "user3",
-          "password": "securePass789"
-        },
-        {
-          "site": "https://www.samplewebsite.com",
-          "username": "user4",
-          "password": "samplePass012"
-        },
-        {
-          "site": "https://www.testsite.com",
-          "username": "user5",
-          "password": "testPassword345"
-        }
-      ]
-      );
-
+    const [PassArray, setPassArray] = useState([]);
 
     const handleInputChange = (e) => {
         setform({ ...form, [e.target.name]: e.target.value })
     }
-
+    
     const handleVisible = (e) => {
         e.preventDefault()
         setVisible(!visible);
     };
 
     const HandleSavePass = () => {
+        if(form.site.length < 3 || form.username.length < 3 || form.password.length < 3 ){
+            toast.error('String length must be > 3', {
+                className:'bg-red-900 italic',
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+        else{
 
-        setPassArray([...PassArray, form]);
-        setform({ site: "", username: "", password: "" })
-
-
+            setPassArray([...PassArray, form]);
+            setform({ site: "", username: "", password: "" })
+            
+            toast('✅ Credentials Saved !', {
+                className:'bg-gradient-to-r from-indigo-500 to-purple-900 italic',
+                position: "bottom-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+            
     }
+
+    const handleCopyText = (text) => {
+        toast('✅ Copied to clipboard !', {
+            className:'bg-gradient-to-r from-indigo-500 to-purple-900 italic',
+            position: "bottom-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+        navigator.clipboard.writeText(text);
+    }
+
 
     return isAuthenticated && (
         <>
+         <ToastContainer
+                position="bottom-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition={Bounce}
+            />
+            {/* Same as */}
+            <ToastContainer />
+
+
             <div className='w-[70%] mx-auto mt-5 mb-3 flex flex-col gap-3 items-center'>
                 <div className="logo text-2xl text-center">
                     &lt; Pass<span className='text-[#f1d537]'>Harbor/&gt;</span>
@@ -87,8 +120,8 @@ const Manager = () => {
             </div>
 
             {/* table for passwords */}
-            <div className="Show-creds w-[70%] mx-auto flex flex-col text-white mb-20">
-                <h1 className='font-semibold text-2xl mb-3'>Your Collection</h1>
+            <div className="Show-creds w-[70%] mx-auto flex flex-col text-white mb-16">
+                <h1 className='font-semibold text-2xl mb-3'>{user.given_name[0].toUpperCase() + user.given_name.slice(1).toLowerCase()}'s Security Credentials</h1>
 
                 <div className="relative h-66 shadow-2xl sm:rounded-lg overflow-hidden">
 
@@ -113,19 +146,36 @@ const Manager = () => {
                             {PassArray == "" ? <tr className='relative left-4'><td className='text-slate-400'>No saved Passwords</td></tr> :
                                 (PassArray.map((item, i) => {
                                     return (
-                                        <tr key={i} className="bg-none text-white border-b dark:border-gray-700">
+                                        <tr key={i} className="bg-none text-white border-b dark:border-gray-700 ">
 
                                             <td className="px-6 py-4">
-                                              <a href={item.site} target="_blank" >{item.site}</a>
+                                                <a href={item.site} target="_blank" >{item.site}</a>
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-6 py-4 relative text-center">
                                                 {item.username}
+                                                <div onClick={()=>{handleCopyText(item.username)}} className='absolute top-[25%] right-5 bg-slate-700 p-2 w-fit rounded-md cursor-pointer hover:bg-slate-500'> <img src="copy.svg" ></img></div>
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-6 py-4 relative text-center">
                                                 {"*".repeat(item.password.length)}
+                                                <div onClick={()=>{handleCopyText(item.password)}} className='absolute top-[25%] right-5 bg-slate-700 p-2 w-fit rounded-md cursor-pointer hover:bg-slate-500'> <img src="copy.svg" ></img></div>
                                             </td>
-                                            <td className="px-6 py-4">
-                                                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                            <td className="px-6 py-4 flex justify-evenly">
+                                                <div className='cursor-pointer' onClick={() => {handleEditPass()}}>
+                                                    <lord-icon
+                                                        src="https://cdn.lordicon.com/gwlusjdu.json"
+                                                        trigger="hover"
+                                                        colors="primary:#ffffff"
+                                                        style={{ "width": "20px", "height": "20px"}}>
+                                                    </lord-icon>
+                                                </div>
+                                                <div className='cursor-pointer' onClick={() => {handleDelPass()}}>
+                                                    <lord-icon
+                                                        src="https://cdn.lordicon.com/skkahier.json"
+                                                        trigger="hover"
+                                                        colors="primary:#ffffff"
+                                                        style={{ "width": "20px", "height": "20px"}}>
+                                                    </lord-icon>
+                                                </div>
                                             </td>
                                         </tr>
                                     )

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useAuth0 } from "@auth0/auth0-react";
-import axios from 'axios';
+
 
 const Navbar = () => {
   const { user, isAuthenticated, loginWithRedirect, logout ,getAccessTokenSilently } = useAuth0();
@@ -16,7 +16,12 @@ const Navbar = () => {
       loginWithRedirect()
     }
     else {
-      logout({ logoutParams: { returnTo: window.location.origin } })
+      let confir = confirm("Loging out?")
+      if(confir){
+        logout({ logoutParams: { returnTo: window.location.origin } })
+  
+      }
+      
     }
   }
 
@@ -61,42 +66,6 @@ const Navbar = () => {
             </lord-icon>
           </div>}
 
-          {/* {isAuthenticated &&
-            <div
-              ref={sliderRef}
-              className={`absolute top-0 right-0 h-full bg-black shadow-lg transform transition-transform duration-300 ease-in-out border-solid border-white border-[5px] border-y-0 border-r-0 ${isOpen ? "translate-x-0" : "translate-x-full"
-                } w-[35] z-50`}
-            >
-
-                
-                <div
-                  className="text-gray-900">
-                  
-                  <div className="h-44 overflow-hidden">
-                    <img className="object-cover object-top w-full" src='https://images.unsplash.com/photo-1597172300672-dbcdf33ac44e?q=80&w=2073&auto=format&w=400&fit=max&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' alt='Mountain'/>
-                  </div>
-                  <div className="mx-auto w-32 h-32 relative -mt-16 border-4 border-white rounded-full overflow-hidden">
-                  <img className="object-cover object-center h-32" src={user.picture} alt='Woman looking front'/>
-                  </div>
-                  <div className="text-center mt-2">
-                    <h2 className="font-semibold text-gray-50 mb-3">{user.name}</h2>
-                    <p className="text-gray-400">@{user.nickname}</p>
-                    <p className="text-gray-400">{user.email}</p>
-                  </div>
-                 
-                  <div className="p-4 border-t mx-8 mt-2" onClick={toggleSlider}>
-                    <button className="w-1/2 block mx-auto rounded-full bg-gray-800 hover:shadow-lg font-semibold text-white px-6 py-2">X</button>
-                  </div>
-
-              
-                  <p className="text-red-600 mt-20 text-center">Danger Ahead</p>
-                  <div className="p-4 border-t mx-8 mt-2 " onClick={handleDeleteAccount}>
-                    <button className="w-1/2 block mx-auto rounded-full bg-gray-800 hover:shadow-lg font-semibold text-red-600 px-6 py-2">Delete Account</button>
-                  </div>
-                </div>
-            </div>
-          } */}
-
           <button onClick={toggleUser} className="relative inline-flex items-center justify-center p-0.5  me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
             <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-black rounded-md group-hover:bg-opacity-0">
               {isAuthenticated ? "Logout" : "Login"}
@@ -110,7 +79,7 @@ const Navbar = () => {
     {isAuthenticated &&
             <div
               ref={sliderRef}
-              className={`fixed top-0 right-0 h-full overflow-hidden backdrop-blur-2xl shadow-lg transform transition-transform duration-300 ease-in-out border-solid border-white border-[5px] border-y-0 border-r-0 ${isOpen ? "translate-x-0" : "translate-x-full bg-black"
+              className={`fixed top-0 right-0 h-full overflow-hidden backdrop-blur-2xl shadow-lg transform transition-transform duration-300 ease-in-out border-solid border-white border-[5px] border-y-0 border-r-0 ${isOpen ? "translate-x-0" : "translate-x-[105%] blur-sm"
                 } w-[35] z-50`}
             >
 
