@@ -39,7 +39,7 @@ const Manager = () => {
             
             toast('✅ Credentials Saved !', {
                 className:'bg-gradient-to-r from-indigo-500 to-purple-900 italic',
-                position: "bottom-right",
+                position: "top-right",
                 autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -55,7 +55,7 @@ const Manager = () => {
     const handleCopyText = (text) => {
         toast('✅ Copied to clipboard !', {
             className:'bg-gradient-to-r from-indigo-500 to-purple-900 italic',
-            position: "bottom-right",
+            position: "top-right",
             autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,

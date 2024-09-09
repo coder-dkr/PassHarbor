@@ -1,8 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react'
+import { useNavigate} from 'react-router-dom'
+
 import { useAuth0 } from "@auth0/auth0-react";
 
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
   const { user, isAuthenticated, loginWithRedirect, logout ,getAccessTokenSilently } = useAuth0();
   const [isOpen, setIsOpen] = useState(false);
   const sliderRef = useRef(null);
@@ -14,6 +18,7 @@ const Navbar = () => {
   const toggleUser = () => {
     if (!isAuthenticated) {
       loginWithRedirect()
+      
     }
     else {
       let confir = confirm("Loging out?")
@@ -26,12 +31,16 @@ const Navbar = () => {
   }
 
   useEffect(() => {
-    // Function to handle outside clicks
+    
     const handleClickOutside = (event) => {
       if (sliderRef.current && !sliderRef.current.contains(event.target)) {
         setIsOpen(false); // Close slider if clicked outside
       }
     };
+
+    if(isAuthenticated){
+      navigate('/home')
+    }
 
     // Attach event listener to the document
     document.addEventListener("mousedown", handleClickOutside);
@@ -40,7 +49,8 @@ const Navbar = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [sliderRef]);
+    
+  }, [sliderRef,isAuthenticated]);
 
   const handleDeleteAccount = async () => {
       window.location.href = `https://${import.meta.env.VITE_AUTH0_DOMAIN}/v2/logout?returnTo=http://localhost:5173&client_id=${import.meta.env.VITE_AUTH0_CLIENT_ID}`;
