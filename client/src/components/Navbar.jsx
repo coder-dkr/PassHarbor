@@ -50,11 +50,14 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
     
+    
   }, [sliderRef,isAuthenticated]);
 
   const handleDeleteAccount = async () => {
       window.location.href = `https://${import.meta.env.VITE_AUTH0_DOMAIN}/v2/logout?returnTo=http://localhost:5173&client_id=${import.meta.env.VITE_AUTH0_CLIENT_ID}`;
   }
+
+  
 
 
 
@@ -101,7 +104,7 @@ const Navbar = () => {
                     <img className="object-cover object-top w-full" src='https://images.unsplash.com/photo-1597172300672-dbcdf33ac44e?q=80&w=2073&auto=format&w=400&fit=max&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' alt='Mountain'/>
                   </div>
                   <div className="mx-auto w-32 h-32 relative -mt-16 border-4 border-white rounded-full overflow-hidden">
-                  <img className="object-cover object-center h-32" src={user.picture} alt='Woman looking front'/>
+                  <img className="object-cover object-center h-32" src={user.picture} alt='User Image'/>
                   </div>
                   <div className="text-center mt-2">
                     <h2 className="font-semibold text-gray-50 mb-3">{user.name}</h2>
