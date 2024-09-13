@@ -21,10 +21,10 @@ const Manager = () => {
     const fetchCredentials = async (email) => {
         try {
           const response = await axios.get(`https://pass-harbor-api.vercel.app/${email}`);
-          if(response.data.credentials != undefined){
-              setCredentials(response.data.credentials);
-            }
-          else setCredentials(response.data);
+        //   if(response.data.credentials != undefined){
+        //       setCredentials(response.data.credentials);
+        //     }
+        setCredentials(response.data);
 
         } catch (error) {
           console.error("Error fetching credentials:", error);
