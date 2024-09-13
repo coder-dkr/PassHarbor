@@ -100,7 +100,7 @@ const Manager = () => {
                 else{
                     const newCredential = {...form,id: uuidv4() // Generate UUID for the new credential
                     };
-                      await axios.post("http://localhost:4000/", {
+                      await axios.post("http://localhost:4000/save", {
                         email: user.email, // Auth0 email
                         credential: newCredential, // Form data for site, username, password and ID
                       });

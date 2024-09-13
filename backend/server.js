@@ -51,7 +51,7 @@ app.get('/:email', async (req, res) => {
 });
 
 // Post data and insert it into the credentials array for a specific email
-app.post('/', async (req, res) => {
+app.post('/save', async (req, res) => {
     const { email, credential } = req.body; // Expect email and credential data in the request body
 
     if (!email || !credential || !credential.site || !credential.username || !credential.password) {
@@ -128,7 +128,12 @@ app.patch('/update-credential', async (req, res) => {
 });
   
 
-// Start the Express server
+app.get('/',(req,res,next)=>{
+    res.status(200).json({
+      message:'good request'
+    })
+  })
+
 app.listen(port, () => {
     console.log(`App listening on http://localhost:${port}`);
 });
