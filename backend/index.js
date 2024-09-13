@@ -10,14 +10,10 @@ const app = express();
 app.use(bodyParser.json());
 const port = 4000;
 
-const corsOptions = {
-    origin: 'https://passharbor.vercel.app',
-    methods: ['GET', 'POST', 'DELETE', 'PATCH'], // Allowed methods
-    optionsSuccessStatus: 200 // Some legacy browsers (IE11, various SmartTVs) choke on 204
-};
+
 
 // Apply the CORS middleware with the defined options
-app.use(cors(corsOptions));
+app.use(cors());
 // Connection URL
 const url = 'mongodb+srv://dhruv:i6JLwBus0IevPj1o@myclustor.jamu8.mongodb.net/passharbor?retryWrites=true&w=majority&appName=myclustor';
 const client = new MongoClient(url);
