@@ -14,7 +14,7 @@ const Manager = () => {
     // Fetch credentials when the component mounts
     useEffect(() => {
         if (isAuthenticated && user.email) {
-            fetchCredentials(user.email);
+            // fetchCredentials(user.email);
         }
     }, [isAuthenticated, user]);
 
