@@ -53,10 +53,7 @@ const Navbar = () => {
     
   }, [sliderRef,isAuthenticated]);
 
-  const handleDeleteAccount = async () => {
-      window.location.href = `https://${import.meta.env.VITE_AUTH0_DOMAIN}/v2/logout?returnTo=http://localhost:5173&client_id=${import.meta.env.VITE_AUTH0_CLIENT_ID}`;
-  }
-
+ 
   
 
 
@@ -64,8 +61,8 @@ const Navbar = () => {
   return (
     <>
     <nav className="h-16 flex items-center text-white sticky top-0 z-40 backdrop-blur-md overflow-hidden">
-      <div className="container mx-32 flex justify-between items-center">
-        <div className="logo font-bold text-2xl">
+      <div className="  container mx-32 flex justify-between items-center">
+        <div className="logo hidden md:block  font-bold text-2xl">
           &lt; Pass<span className='text-[#f1d537]'>Harbor/&gt;</span>
         </div>
         <div className="user-menu flex w-1/5 justify-evenly items-center">
@@ -79,7 +76,7 @@ const Navbar = () => {
             </lord-icon>
           </div>}
 
-          <button onClick={toggleUser} className="relative inline-flex items-center justify-center p-0.5  me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+          <button onClick={toggleUser} className={`${isAuthenticated ? "ml-6" : "mr-10"} md:ml-0 relative inline-flex items-center justify-center p-0.5 me-2 md:overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800`}>
             <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-black rounded-md group-hover:bg-opacity-0">
               {isAuthenticated ? "Logout" : "Login"}
             </span>
@@ -118,7 +115,7 @@ const Navbar = () => {
 
                   {/* ACCOUNT DELETE */}
                   <p className="text-red-600 mt-20 text-center">Danger Ahead</p>
-                  <div className="p-4 border-t mx-8 mt-2 " onClick={handleDeleteAccount}>
+                  <div className="p-4 border-t mx-8 mt-2 ">
                     <button className="w-1/2 block mx-auto rounded-full bg-gray-800 hover:shadow-lg font-semibold text-red-600 px-6 py-2">Delete Account</button>
                   </div>
                 </div>
