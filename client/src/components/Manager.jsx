@@ -20,7 +20,7 @@ const Manager = () => {
 
     const fetchCredentials = async (email) => {
         try {
-          const response = await axios.get(`http://localhost:4000/${email}`);
+          const response = await axios.get(`https://pass-harbor-api.vercel.app/${email}`);
           if(response.data.credentials != undefined){
               setCredentials(response.data.credentials);
             }
@@ -74,7 +74,7 @@ const Manager = () => {
                         )
                     );
                     
-                    await axios.patch("http://localhost:4000/update-credential", {
+                    await axios.patch("https://pass-harbor-api.vercel.app/update-credential", {
                         email: user.email, // Auth0 email
                         credentialId: form.id, // The ID of the credential being updated
                         updatedCredential: updatedCredential, // Updated form data
@@ -100,7 +100,7 @@ const Manager = () => {
                 else{
                     const newCredential = {...form,id: uuidv4() // Generate UUID for the new credential
                     };
-                      await axios.post("http://localhost:4000/save", {
+                      await axios.post("https://pass-harbor-api.vercel.app/save", {
                         email: user.email, // Auth0 email
                         credential: newCredential, // Form data for site, username, password and ID
                       });
@@ -161,7 +161,7 @@ const Manager = () => {
         if(bolo){
             try {
                 setCredentials((prevCredentials) => prevCredentials.filter(item => item.id !== cred.id));
-                await axios.delete(`http://localhost:4000/${user.email}`, {
+                await axios.delete(`https://pass-harbor-api.vercel.app/${user.email}`, {
                     data: { id: cred.id }, // Send the UUID of the credential to delete
                 });
                 fetchCredentials(user.email);
