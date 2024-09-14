@@ -74,6 +74,18 @@ const Manager = () => {
                         id: form.id, // Keep the same ID for the credential being updated
                     };
 
+                    await axios.patch("https://pass-harbor-api.vercel.app/update-credential", {
+                        email: user.email, // Auth0 email
+                        credentialId: form.id, // The ID of the credential being updated
+                        updatedCredential: updatedCredential, // Updated form data
+                    },{
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        withCredentials: true,
+                      });
+                    
+                    fetchCredentials(user.email);
                     setform({ site: "", username: "", password: "" }); // Clear form
                     setCredentials(prevCredentials =>
                         prevCredentials.map(cred =>
@@ -91,18 +103,6 @@ const Manager = () => {
                         progress: undefined,
                         theme: "light",
                     });
-                    await axios.patch("https://pass-harbor-api.vercel.app/update-credential", {
-                        email: user.email, // Auth0 email
-                        credentialId: form.id, // The ID of the credential being updated
-                        updatedCredential: updatedCredential, // Updated form data
-                    },{
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        withCredentials: true,
-                      });
-                    
-                    fetchCredentials(user.email);
                     // Update credentials in state
                     
 
@@ -110,20 +110,6 @@ const Manager = () => {
                 else{
                     const newCredential = {...form,id: uuidv4() // Generate UUID for the new credential
                     };
-                    setCredentials((prevCredentials) => [...prevCredentials, newCredential])
-                    setform({ site: "", username: "", password: "" }); // Clear form
-
-                    toast('✅ Credentials Saved !', {
-                        className: 'bg-gradient-to-r from-indigo-500 to-purple-900 italic',
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    });
                       await axios.post("https://pass-harbor-api.vercel.app/save", {
                         email: user.email, // Auth0 email
                         credential: newCredential, // Form data for site, username, password and ID
@@ -133,11 +119,24 @@ const Manager = () => {
                         },
                         withCredentials: true,
                       });
+                      setCredentials((prevCredentials) => [...prevCredentials, newCredential])
+                      setform({ site: "", username: "", password: "" }); // Clear form
+  
+                      toast('✅ Credentials Saved !', {
+                          className: 'bg-gradient-to-r from-indigo-500 to-purple-900 italic',
+                          position: "top-right",
+                          autoClose: 2000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: "light",
+                      });
                 }
                 
             }
             catch{
-                console.error("Error saving/updating credential:", error);
                 toast.error('❌ Failed to save/update credential!', {
                     className: 'bg-red-900 italic',
                     position: "top-center",
@@ -149,6 +148,7 @@ const Manager = () => {
                     progress: undefined,
                     theme: "light",
                 });
+                console.error("Error saving/updating credential:", error);
             }
 
            
@@ -175,6 +175,15 @@ const Manager = () => {
         let bolo = confirm(`Delete ${cred.site} ?`)
         if(bolo){
             try {
+                await axios.delete(`https://pass-harbor-api.vercel.app/${user.email}`, {
+                    data: { id: cred.id }, // Send the UUID of the credential to delete
+                },{
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    withCredentials: true,
+                  });
+                fetchCredentials(user.email);
                 setCredentials((prevCredentials) => prevCredentials.filter(item => item.id !== cred.id));
                 toast('✅ Credentials Deleted !', {
                     className: 'bg-gradient-to-r from-indigo-500 to-purple-900 italic',
@@ -187,17 +196,20 @@ const Manager = () => {
                     progress: undefined,
                     theme: "light",
                 });
-                await axios.delete(`https://pass-harbor-api.vercel.app/${user.email}`, {
-                    data: { id: cred.id }, // Send the UUID of the credential to delete
-                },{
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    withCredentials: true,
-                  });
-                fetchCredentials(user.email);
+                
                
             } catch (error) {
+                toast('❌ Error deleting credential', {
+                    className: 'bg-gradient-to-r from-indigo-500 to-purple-900 italic',
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
                 console.error("Error deleting credential:", error);
             }
 
