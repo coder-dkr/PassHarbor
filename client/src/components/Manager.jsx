@@ -20,11 +20,13 @@ const Manager = () => {
 
     const fetchCredentials = async (email) => {
         try {
-          const response = await axios.get(`https://pass-harbor-api.vercel.app/${email}`);
-        //   if(response.data.credentials != undefined){
-        //       setCredentials(response.data.credentials);
-        //     }
-        setCredentials(response.data);
+          const response = await axios.get(`https://pass-harbor-api.vercel.app/getbigdata/${email}`);
+          if(response.data.credentials != undefined){
+              setCredentials(response.data.credentials);
+            }
+        else{
+            setCredentials(response.data);
+        }    
 
         } catch (error) {
           console.error("Error fetching credentials:", error);
@@ -73,17 +75,6 @@ const Manager = () => {
                             cred.id === form.id ? { ...cred, ...updatedCredential } : cred
                         )
                     );
-                    
-                    await axios.patch("https://pass-harbor-api.vercel.app/update-credential", {
-                        email: user.email, // Auth0 email
-                        credentialId: form.id, // The ID of the credential being updated
-                        updatedCredential: updatedCredential, // Updated form data
-                    });
-                    
-                    fetchCredentials(user.email);
-                    // Update credentials in state
-                    
-        
                     toast('✅ Credential Updated!', {
                         className: 'bg-green-500 italic',
                         position: "top-right",
@@ -95,29 +86,38 @@ const Manager = () => {
                         progress: undefined,
                         theme: "light",
                     });
+                    await axios.patch("https://pass-harbor-api.vercel.app/update-credential", {
+                        email: user.email, // Auth0 email
+                        credentialId: form.id, // The ID of the credential being updated
+                        updatedCredential: updatedCredential, // Updated form data
+                    });
+                    
+                    fetchCredentials(user.email);
+                    // Update credentials in state
+                    
 
                 }
                 else{
                     const newCredential = {...form,id: uuidv4() // Generate UUID for the new credential
                     };
+                    setCredentials((prevCredentials) => [...prevCredentials, newCredential])
+                    setform({ site: "", username: "", password: "" }); // Clear form
+
+                    toast('✅ Credentials Saved !', {
+                        className: 'bg-gradient-to-r from-indigo-500 to-purple-900 italic',
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
                       await axios.post("https://pass-harbor-api.vercel.app/save", {
                         email: user.email, // Auth0 email
                         credential: newCredential, // Form data for site, username, password and ID
                       });
-                      setCredentials((prevCredentials) => [...prevCredentials, newCredential])
-                      setform({ site: "", username: "", password: "" }); // Clear form
-
-                         toast('✅ Credentials Saved !', {
-                            className: 'bg-gradient-to-r from-indigo-500 to-purple-900 italic',
-                            position: "top-right",
-                            autoClose: 2000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "light",
-                        });
                 }
                 
             }
@@ -161,10 +161,6 @@ const Manager = () => {
         if(bolo){
             try {
                 setCredentials((prevCredentials) => prevCredentials.filter(item => item.id !== cred.id));
-                await axios.delete(`https://pass-harbor-api.vercel.app/${user.email}`, {
-                    data: { id: cred.id }, // Send the UUID of the credential to delete
-                });
-                fetchCredentials(user.email);
                 toast('✅ Credentials Deleted !', {
                     className: 'bg-gradient-to-r from-indigo-500 to-purple-900 italic',
                     position: "top-right",
@@ -176,6 +172,11 @@ const Manager = () => {
                     progress: undefined,
                     theme: "light",
                 });
+                await axios.delete(`https://pass-harbor-api.vercel.app/${user.email}`, {
+                    data: { id: cred.id }, // Send the UUID of the credential to delete
+                });
+                fetchCredentials(user.email);
+               
             } catch (error) {
                 console.error("Error deleting credential:", error);
             }
@@ -241,9 +242,9 @@ const Manager = () => {
                 </button>
             </div>
 
-            {/* table for passwords
+            {/* table for passwords */}
             <div className="Show-creds md:w-[70%] mx-auto flex flex-col text-white mb-16">
-                <h1 className='font-semibold text-2xl mb-3'>{user.given_name[0].toUpperCase() + user.given_name.slice(1).toLowerCase()}'s Security Credentials</h1>
+                <h1 className='font-semibold text-2xl mb-3'>Your Security Credentials</h1>
 
                 <div className="relative h-66 shadow-2xl sm:rounded-lg md:overflow-hidden">
 
@@ -305,7 +306,7 @@ const Manager = () => {
                         </tbody>
                     </table>
                 </div>
-            </div> */}
+            </div> 
 
         </>
     )
