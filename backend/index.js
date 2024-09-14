@@ -10,19 +10,24 @@ const app = express();
 app.use(bodyParser.json());
 const port = 4000;
 
+app.use(cors({
+    origin:"https://passharbor.vercel.app",
+    methods:["PATCH","GET","POST","DELETE"],
+    credentials:true
+}));
 
-var corsOptions = {
-    origin: 'https://passharbor.vercel.app',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-  }
+// var corsOptions = {
+//     origin: 'https://passharbor.vercel.app',
+//     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+//   }
 // Apply the CORS middleware with the defined options
-app.use(cors(corsOptions));
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'https://passharbor.vercel.app'); // Allow your frontend origin
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE'); // Allow specific HTTP methods
-    res.header('Access-Control-Allow-Headers', 'Content-Type'); // Allow specific headers
-    next();
-  });
+// app.use(cors(corsOptions));
+// app.use((req, res, next) => {
+//     res.header('Access-Control-Allow-Origin', 'https://passharbor.vercel.app'); // Allow your frontend origin
+//     res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE'); // Allow specific HTTP methods
+//     res.header('Access-Control-Allow-Headers', 'Content-Type'); // Allow specific headers
+//     next();
+//   });
 // Connection URL
 const url = 'mongodb+srv://dhruv:i6JLwBus0IevPj1o@myclustor.jamu8.mongodb.net/passharbor?retryWrites=true&w=majority&appName=myclustor';
 const client = new MongoClient(url);
