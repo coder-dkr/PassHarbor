@@ -11,9 +11,12 @@ app.use(bodyParser.json());
 const port = 4000;
 
 
-
+var corsOptions = {
+    origin: 'https://passharbor.vercel.app',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
 // Apply the CORS middleware with the defined options
-app.use(cors());
+app.use(cors(corsOptions));
 // Connection URL
 const url = 'mongodb+srv://dhruv:i6JLwBus0IevPj1o@myclustor.jamu8.mongodb.net/passharbor?retryWrites=true&w=majority&appName=myclustor';
 const client = new MongoClient(url);
@@ -26,7 +29,7 @@ const collectionName = "users";
 client.connect();
 
 // Get all credentials for a specific email
-app.get('/:email', async (req, res) => {
+app.get('/getbigdata/:email', async (req, res) => {
     const email = req.params.email;
 
     try {
