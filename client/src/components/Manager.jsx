@@ -3,7 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { v4 as uuidv4 } from 'uuid'; // Import UUID
+import { v4 as uuidv4 } from 'uuid'; 
 
 const Manager = () => {
     const { isAuthenticated, user } = useAuth0();
@@ -13,7 +13,7 @@ const Manager = () => {
 
     axios.defaults.withCredentials = true;
 
-    // Fetch credentials when the component mounts
+    
     useEffect(() => {
         if (isAuthenticated && user.email) {
             fetchCredentials(user.email);
@@ -72,17 +72,17 @@ const Manager = () => {
                         site: form.site,
                         username: form.username,
                         password: form.password,
-                        id: form.id, // Keep the same ID for the credential being updated
+                        id: form.id, 
                     };
 
                     await axios.patch("https://pass-harbor-api.vercel.app/update-credential", {
-                        email: user.email, // Auth0 email
-                        credentialId: form.id, // The ID of the credential being updated
-                        updatedCredential: updatedCredential, // Updated form data
+                        email: user.email, 
+                        credentialId: form.id, 
+                        updatedCredential: updatedCredential,
                     });
                     
                     fetchCredentials(user.email);
-                    setform({ site: "", username: "", password: "" }); // Clear form
+                    setform({ site: "", username: "", password: "" }); 
                     setCredentials(prevCredentials =>
                         prevCredentials.map(cred =>
                             cred.id === form.id ? { ...cred, ...updatedCredential } : cred
@@ -99,19 +99,19 @@ const Manager = () => {
                         progress: undefined,
                         theme: "light",
                     });
-                    // Update credentials in state
+                   
                     
 
                 }
                 else{
-                    const newCredential = {...form,id: uuidv4() // Generate UUID for the new credential
+                    const newCredential = {...form,id: uuidv4() 
                     };
                       await axios.post("https://pass-harbor-api.vercel.app/save", {
                         email: user.email, // Auth0 email
-                        credential: newCredential, // Form data for site, username, password and ID
+                        credential: newCredential, 
                       });
                       setCredentials((prevCredentials) => [...prevCredentials, newCredential])
-                      setform({ site: "", username: "", password: "" }); // Clear form
+                      setform({ site: "", username: "", password: "" }); 
   
                       toast('✅ Credentials Saved !', {
                           className: 'bg-gradient-to-r from-indigo-500 to-purple-900 italic',
@@ -168,7 +168,7 @@ const Manager = () => {
             try {
                 await axios.delete(`https://pass-harbor-api.vercel.app/deletecredential`,{
                     headers: {
-                      email: user.email, // Send email in headers
+                      email: user.email, 
                     },
                     data: { id: cred.id },
                   });
