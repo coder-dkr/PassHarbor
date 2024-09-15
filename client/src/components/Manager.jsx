@@ -22,10 +22,11 @@ const Manager = () => {
 
     const fetchCredentials = async (email) => {
         try {
-          const response = await axios.get(`https://pass-harbor-api.vercel.app/getbigdata/${email}`,{
-           
-            withCredentials: true,
-          });
+          const response = await axios.get('https://pass-harbor-api.vercel.app/getbigdata',{
+            headers: {
+                email: user.email
+            }
+        });
           if(response.data.credentials != undefined){
               setCredentials(response.data.credentials);
             }
@@ -78,12 +79,7 @@ const Manager = () => {
                         email: user.email, // Auth0 email
                         credentialId: form.id, // The ID of the credential being updated
                         updatedCredential: updatedCredential, // Updated form data
-                    },{
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        withCredentials: true,
-                      });
+                    });
                     
                     fetchCredentials(user.email);
                     setform({ site: "", username: "", password: "" }); // Clear form
@@ -113,11 +109,6 @@ const Manager = () => {
                       await axios.post("https://pass-harbor-api.vercel.app/save", {
                         email: user.email, // Auth0 email
                         credential: newCredential, // Form data for site, username, password and ID
-                      },{
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        withCredentials: true,
                       });
                       setCredentials((prevCredentials) => [...prevCredentials, newCredential])
                       setform({ site: "", username: "", password: "" }); // Clear form
@@ -175,13 +166,11 @@ const Manager = () => {
         let bolo = confirm(`Delete ${cred.site} ?`)
         if(bolo){
             try {
-                await axios.delete(`https://pass-harbor-api.vercel.app/${user.email}`, {
-                    data: { id: cred.id }, // Send the UUID of the credential to delete
-                },{
+                await axios.delete(`https://pass-harbor-api.vercel.app/deletecredential`,{
                     headers: {
-                        "Content-Type": "application/json"
+                      email: user.email, // Send email in headers
                     },
-                    withCredentials: true,
+                    data: { id: cred.id },
                   });
                 fetchCredentials(user.email);
                 setCredentials((prevCredentials) => prevCredentials.filter(item => item.id !== cred.id));

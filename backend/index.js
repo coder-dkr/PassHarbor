@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 const port = 4000;
 
 app.use(cors({
-    origin:["https://passharbor.vercel.app/"],
+    origin:["https://passharbor.vercel.app"],
     methods:["PATCH","GET","POST","DELETE"],
     credentials:true
 }));
@@ -41,8 +41,8 @@ const collectionName = "users";
 client.connect();
 
 // Get all credentials for a specific email
-app.get('/getbigdata/:email', async (req, res) => {
-    const email = req.params.email;
+app.get('/getbigdata', async (req, res) => {
+    const email = req.headers.email;
 
     try {
         const db = client.db(dbName);
@@ -60,6 +60,7 @@ app.get('/getbigdata/:email', async (req, res) => {
         res.status(500).send('Error retrieving data');
     }
 });
+
 
 // Post data and insert it into the credentials array for a specific email
 app.post('/save', async (req, res) => {
@@ -88,9 +89,9 @@ app.post('/save', async (req, res) => {
 });
 
 // Delete a specific credential by UUID
-app.delete('/:email', async (req, res) => {
-    const { email } = req.params;
-    const { id } = req.body; // The UUID for the credential to delete
+app.delete('/deletecredential', async (req, res) => {
+    const email = req.headers.email; // Get email from headers
+    const { id } = req.body; // Get UUID from the request body
   
     try {
       const db = client.db(dbName);
@@ -102,15 +103,16 @@ app.delete('/:email', async (req, res) => {
         { $pull: { credentials: { id: id } } }  // Match by UUID
       );
   
-    //   if (result.modifiedCount > 0) {
-    //     res.status(200).send({ message: 'Credential deleted successfully' });
-    //   } else {
-    //     res.status(404).send({ message: 'Credential not found or already deleted' });
-    //   }
+      if (result.modifiedCount > 0) {
+        res.status(200).send({ message: 'Credential deleted successfully' });
+      } else {
+        res.status(404).send({ message: 'Credential not found or already deleted' });
+      }
     } catch (error) {
       res.status(500).send({ message: 'Error deleting credential', error });
     }
   });
+
 
   // PATCH route to edit credential
 app.patch('/update-credential', async (req, res) => {
