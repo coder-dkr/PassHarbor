@@ -23,9 +23,9 @@ const Manager = () => {
     const fetchCredentials = async (email) => {
         try {
           const response = await axios.get('https://pass-harbor-api.vercel.app/getbigdata',{
-            headers: {
+             
                 email: user.email
-            }
+            
         });
           if(response.data.credentials != undefined){
               setCredentials(response.data.credentials);
@@ -167,10 +167,9 @@ const Manager = () => {
         if(bolo){
             try {
                 await axios.delete(`https://pass-harbor-api.vercel.app/deletecredential`,{
-                    headers: {
-                      email: user.email, 
-                    },
-                    data: { id: cred.id },
+                    email : user.email,
+                    id : cred.id
+                   
                   });
                 fetchCredentials(user.email);
                 setCredentials((prevCredentials) => prevCredentials.filter(item => item.id !== cred.id));

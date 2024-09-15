@@ -50,7 +50,7 @@ client.connect();
 
 // Get 
 app.get('/getbigdata', async (req, res) => {
-    const email = req.headers.email;
+    const {email} = req.body
 
     try {
         const db = client.db(dbName);
@@ -97,9 +97,8 @@ app.post('/save', async (req, res) => {
 });
 
 // Delete
-app.delete('/deletecredential', async (req, res) => {
-    const email = req.headers.email; 
-    const { id } = req.body; 
+app.delete('/deletecredential', async (req, res) => { 
+    const { id , email} = req.body; 
   
     try {
       const db = client.db(dbName);
