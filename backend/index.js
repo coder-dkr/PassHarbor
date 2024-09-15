@@ -24,11 +24,18 @@ app.use((req, res, next) => {
     next(); 
 });
 
-app.use(cors({
-    origin:["https://passharbor.vercel.app"],
-    methods:["PATCH","GET","POST","DELETE"],
-    credentials:true
-}));
+const corsOptions = {
+    origin: ["https://passharbor.vercel.app"], 
+    methods: ["GET", "POST", "PATCH", "DELETE"], 
+    credentials: true,
+    allowedHeaders: ["Content-Type", "X-Requested-With", "email"], 
+    optionsSuccessStatus: 200, 
+    preflightContinue: false, 
+};
+
+// Apply the CORS middleware globally
+app.use(cors(corsOptions));
+
 
 
 const url = 'mongodb+srv://dhruv:i6JLwBus0IevPj1o@myclustor.jamu8.mongodb.net/passharbor?retryWrites=true&w=majority&appName=myclustor';
