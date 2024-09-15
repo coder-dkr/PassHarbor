@@ -11,6 +11,8 @@ const Manager = () => {
     const [visible, setVisible] = useState(false);
     const [credentials, setCredentials] = useState([]);
 
+    axios.defaults.withCredentials = true;
+
     // Fetch credentials when the component mounts
     useEffect(() => {
         if (isAuthenticated && user.email) {
