@@ -23,9 +23,7 @@ const Manager = () => {
     const fetchCredentials = async (email) => {
         try {
           const response = await axios.get(`https://pass-harbor-api.vercel.app/getbigdata/${email}`,{
-            headers: {
-                "Content-Type": "application/json"
-            },
+           
             withCredentials: true,
           });
           if(response.data.credentials != undefined){
