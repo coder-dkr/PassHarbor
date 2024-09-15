@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 const port = 4000;
 
 app.use(cors({
-    origin:["https://passharbor.vercel.app"],
+    origin:["https://passharbor.vercel.app/"],
     methods:["PATCH","GET","POST","DELETE"],
     credentials:true
 }));
