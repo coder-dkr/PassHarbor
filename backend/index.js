@@ -25,12 +25,12 @@ app.use((req, res, next) => {
 });
 
 const corsOptions = {
-    origin: ["https://passharbor.vercel.app"], 
-    methods: ["GET", "POST", "PATCH", "DELETE"], 
+    origin: ["https://passharbor.vercel.app"],
+    methods: ["GET", "POST", "PATCH", "DELETE"],
     credentials: true,
-    allowedHeaders: ["Content-Type", "X-Requested-With", "email"], 
-    optionsSuccessStatus: 200, 
-    preflightContinue: false, 
+    allowedHeaders: ["Content-Type", "X-Requested-With", "email"],
+    optionsSuccessStatus: 200,
+    preflightContinue: false,
 };
 
 // Apply the CORS middleware globally
