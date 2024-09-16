@@ -79,7 +79,7 @@ const Manager = () => {
                         id: form.id, 
                     };
 
-                    await axios.patch("/update-credential", {
+                    await api.patch("/update-credential", {
                         email: user.email, 
                         credentialId: form.id, 
                         updatedCredential: updatedCredential,
@@ -170,7 +170,7 @@ const Manager = () => {
         let bolo = confirm(`Delete ${cred.site} ?`)
         if(bolo){
             try {
-                await axios.delete(`/deletecredential`,{
+                await api.delete(`/deletecredential`,{
                     email : user.email,
                     id : cred.id
                    
