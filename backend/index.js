@@ -10,13 +10,17 @@ const app = express();
 app.use(bodyParser.json());
 const port = 4000;
 
-// const corsOptions = {
-//     // origin: ["https://passharbor.vercel.app"],
-//     methods: ["GET", "POST", "PATCH", "DELETE"],
-//     credentials: true,
-//     optionsSuccessStatus: 200,
-//     preflightContinue: false,
-// };
+const corsOptions = {
+    origin: "https://passharbor.vercel.app",
+    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "email"],
+  };
+  
+  app.use(cors(corsOptions));
+  
+  
+  app.options('*', cors(corsOptions));
 
 
 // app.use((req, res, next) => {
@@ -33,7 +37,7 @@ const port = 4000;
 // });
 
 // Apply the CORS middleware globally
-app.use(cors());
+
 
 
 
