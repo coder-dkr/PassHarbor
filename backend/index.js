@@ -38,7 +38,7 @@ app.use(cors(corsOptions));
 
 
 
-const url = 'mongodb+srv://dhruv:i6JLwBus0IevPj1o@myclustor.jamu8.mongodb.net/passharbor?retryWrites=true&w=majority&appName=myclustor';
+const url = '';
 const client = new MongoClient(url);
 
 // Database 
