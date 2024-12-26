@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import Manager from './components/Manager'
 import Footer from './components/Footer'
 import NotFoundTorch from './components/NotFoundTorch';
+import { Analytics } from "@vercel/analytics/react"
 import {
   Route,
   Routes,
@@ -16,9 +17,9 @@ function App() {
 
   return (
     <>
-    
+
      <Router>
-    
+      
       <div className="absolute inset-0 -z-10 h-screen w-screen items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]"></div>
       <Navbar />
 
@@ -54,6 +55,7 @@ function App() {
       <Footer />
 
       </Router> 
+      <Analytics />
     </>
   )
 }
