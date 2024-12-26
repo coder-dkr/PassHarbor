@@ -53,9 +53,8 @@ function App() {
 
       
       <Footer />
-
+      <Analytics />     
       </Router> 
-      <Analytics />
     </>
   )
 }
