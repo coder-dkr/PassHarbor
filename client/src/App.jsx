@@ -1,10 +1,10 @@
-import { useState } from 'react'
+
 import { useAuth0 } from "@auth0/auth0-react";
 import Navbar from './components/Navbar'
 import Manager from './components/Manager'
 import Footer from './components/Footer'
 import NotFoundTorch from './components/NotFoundTorch';
-import { Analytics } from "@vercel/analytics/react"
+
 import {
   Route,
   Routes,
@@ -53,7 +53,7 @@ function App() {
 
       
       <Footer />
-      <Analytics />     
+     
       </Router> 
     </>
   )
