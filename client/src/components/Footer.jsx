@@ -1,4 +1,5 @@
 import React from 'react'
+import { Analytics } from "@vercel/analytics/react"
 
 const Footer = () => {
   return (
@@ -21,6 +22,7 @@ const Footer = () => {
     </footer>
     <footer className='md:hidden text-center fixed bottom-0 w-full p-2  flex-col items-center backdrop-blur-sm overflow-hidden'>
     <a className='cursor-pointer  font-semibold' href="https://github.com/coder-dkr" target='_blank'>Crafted by Dhruv Roy 👉🦁</a>
+    <Analytics />
     </footer>
     </>
   )
