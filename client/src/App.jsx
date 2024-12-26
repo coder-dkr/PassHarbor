@@ -33,7 +33,7 @@ function App() {
               
                         <div className='hidden md:block text-center absolute top-[70%] left-[50%] translate-x-[-50%] translate-y-[-50%] '>A highly secure and efficient vault designed to safely store and manage your passwords. It ensures your credentials remain protected while offering seamless access across devices. With advanced encryption and intuitive features, it simplifies password management by auto-filling login details, generating strong passwords, and keeping everything secure and accessible only to you. Trust PassHarbor to safeguard your digital life with ease, convenience, and top-notch security.</div>
                         <div className='md:hidden text-center absolute top-[70%] left-[50%] translate-x-[-50%] translate-y-[-50%] '>A highly secure and efficient vault designed to safely store and manage your passwords. It ensures your credentials remain protected while offering seamless access across devices. </div>
-                        <Analytics />
+                      
                       </div>
                     }
                 />
@@ -43,19 +43,19 @@ function App() {
         <Route exact path="/home"
                     element={isLoading ? <div className='absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]'>
                       <img src="loading.gif" className="w-60" alt="" />
-                      <Analytics />
-                    </div> : isAuthenticated ? <div><Manager /><Analytics /></div>: <div> <NotFoundTorch txt="LOGIN"/>   <Analytics /> </div> }
+                  
+                    </div> : isAuthenticated ? <Manager /> : <NotFoundTorch txt="LOGIN"/>}
                 />
         
          <Route
                   path="*"
-                    element={ <div><NotFoundTorch txt="404"/> <Analytics/> </div> }
+                    element={<NotFoundTorch txt="404"/>}
                 />
         </Routes>
 
       
       <Footer />
-     
+      <Analytics />
       </Router> 
     </>
   )
