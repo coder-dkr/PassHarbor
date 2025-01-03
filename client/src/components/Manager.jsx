@@ -11,8 +11,6 @@ const Manager = () => {
     const [visible, setVisible] = useState(false);
     const [credentials, setCredentials] = useState([]);
 
-    axios.defaults.withCredentials = true;
-
     
     useEffect(() => {
         if (isAuthenticated && user.email) {
@@ -23,9 +21,7 @@ const Manager = () => {
     const fetchCredentials = async (email) => {
         try {
           const response = await axios.get('/api/getbigdata',{
-             
-                email: user.email
-            
+              params :   {email: email}  
         });
           if(response.data.credentials != undefined){
               setCredentials(response.data.credentials);
@@ -33,7 +29,6 @@ const Manager = () => {
         else{
             setCredentials(response.data);
         }    
-
         } catch (error) {
           console.error("Error fetching credentials:", error);
         }

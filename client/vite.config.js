@@ -6,7 +6,7 @@ export default defineConfig({
 
   server : {
     proxy : {
-      '/api' : 'https://pass-harbor-api.vercel.app',
+      '/api' : 'http://localhost:4000/',
      },
   },
   plugins: [react()],
