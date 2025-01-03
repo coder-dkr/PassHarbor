@@ -13,10 +13,6 @@ const Manager = () => {
 
     axios.defaults.withCredentials = true;
 
-    const api = axios.create({
-        baseURL: "https://pass-harbor-api.vercel.app",
-        withCredentials: true,
-      });
     
     useEffect(() => {
         if (isAuthenticated && user.email) {
@@ -26,7 +22,7 @@ const Manager = () => {
 
     const fetchCredentials = async (email) => {
         try {
-          const response = await api.get('/getbigdata',{
+          const response = await axios.get('/api/getbigdata',{
              
                 email: user.email
             
@@ -79,7 +75,7 @@ const Manager = () => {
                         id: form.id, 
                     };
 
-                    await api.patch("/update-credential", {
+                    await axios.patch("/api/update-credential", {
                         email: user.email, 
                         credentialId: form.id, 
                         updatedCredential: updatedCredential,
@@ -110,7 +106,7 @@ const Manager = () => {
                 else{
                     const newCredential = {...form,id: uuidv4() 
                     };
-                      await api.post("/save", {
+                      await axios.post("/api/save", {
                         email: user.email, // Auth0 email
                         credential: newCredential, 
                       });
@@ -170,7 +166,7 @@ const Manager = () => {
         let bolo = confirm(`Delete ${cred.site} ?`)
         if(bolo){
             try {
-                await api.delete(`/deletecredential`,{
+                await axios.delete(`/api/deletecredential`,{
                     email : user.email,
                     id : cred.id
                    

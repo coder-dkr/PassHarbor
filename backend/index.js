@@ -2,7 +2,7 @@ const express = require('express');
 const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
-const cors = require('cors');
+// const cors = require('cors');
 dotenv.config();
 
 
@@ -10,38 +10,23 @@ const app = express();
 app.use(bodyParser.json());
 const port = 4000;
 
-const corsOptions = {
-    origin: "https://passharbor.vercel.app",
-    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "email"],
-  };
+// const corsOptions = {
+//     origin: "https://passharbor.vercel.app",
+//     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+//     credentials: true,
+//     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "email"],
+//   };
   
-  app.use(cors(corsOptions));
+//   app.use(cors(corsOptions));
   
   
-  app.options('*', cors(corsOptions));
-
-
-// app.use((req, res, next) => {
-//     res.header('Access-Control-Allow-Origin', 'https://passharbor.vercel.app'); 
-//     res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE'); 
-//     res.header('Access-Control-Allow-Headers', "*");
-//     res.header('Access-Control-Allow-Credentials',true);
-
-//     if (req.method === 'OPTIONS') {
-//         return res.status(200).end(); 
-//     }
-
-//     next(); 
-// });
-
-// Apply the CORS middleware globally
+//   app.options('*', cors(corsOptions));
 
 
 
 
-const url = 'mongodb+srv://dhruv:i6JLwBus0IevPj1o@myclustor.jamu8.mongodb.net/passharbor?retryWrites=true&w=majority&appName=myclustor';
+const url = "mongodb+srv://dhruv:DfxE7KRWi1Ekydxv@passharborstore.zgc6e.mongodb.net/passharbor?retryWrites=true&w=majority&appName=passharborstore";
+;
 const client = new MongoClient(url);
 
 // Database 
@@ -52,7 +37,7 @@ const collectionName = "users";
 client.connect();
 
 // Get 
-app.get('/getbigdata', async (req, res) => {
+app.get('/api/getbigdata', async (req, res) => {
     const {email} = req.body
 
     try {
@@ -74,7 +59,7 @@ app.get('/getbigdata', async (req, res) => {
 
 
 // Post
-app.post('/save', async (req, res) => {
+app.post('/api/save', async (req, res) => {
     const { email, credential } = req.body; 
 
     if (!email || !credential || !credential.site || !credential.username || !credential.password) {
@@ -100,7 +85,7 @@ app.post('/save', async (req, res) => {
 });
 
 // Delete
-app.delete('/deletecredential', async (req, res) => { 
+app.delete('/api/deletecredential', async (req, res) => { 
     const { id , email} = req.body; 
   
     try {
@@ -125,7 +110,7 @@ app.delete('/deletecredential', async (req, res) => {
 
 
   // PATCH
-app.patch('/update-credential', async (req, res) => {
+app.patch('/api/update-credential', async (req, res) => {
     const { email, credentialId, updatedCredential } = req.body;
     const db = client.db(dbName);
     const collection = db.collection(collectionName);
