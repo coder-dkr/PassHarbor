@@ -6,7 +6,7 @@ export default defineConfig({
   server : {
     proxy : {
       '/api' :{ 
-        target : 'https://pass-harbor-api.vercel.app',
+        target : 'https://passharbor.onrender.com',
         changeOrigin: true,
         secure: true,
         ws: true   }
