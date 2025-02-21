@@ -1,13 +1,15 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vitejs.dev/config/
 export default defineConfig({
-
+  plugins: [react()],
   server : {
     proxy : {
-      '/api' : 'https://pass-harbor-api.vercel.app/',
+      '/api' :{ 
+        target : 'https://pass-harbor-api.vercel.app',
+        changeOrigin: true,
+        secure: true,
+        ws: true   }
      },
-  },
-  plugins: [react()],
+  }
 })

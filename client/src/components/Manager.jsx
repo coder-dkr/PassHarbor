@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import  {  useState, useEffect } from 'react'
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { ToastContainer, toast, Bounce } from 'react-toastify';
@@ -21,20 +21,13 @@ const Manager = () => {
     const fetchCredentials = async (email) => {
         try {
           const response = await axios.get('/api/getbigdata',{
-              params :   {email: email}  
+            headers : { email : email}
         });
-          if(response.data.credentials != undefined){
-              setCredentials(response.data.credentials);
-            }
-        else{
-            setCredentials(response.data);
-        }    
+        setCredentials(Array.isArray(response.data) ? response.data : [] );
         } catch (error) {
           console.error("Error fetching credentials:", error);
         }
       };
-
-
 
     const handleInputChange = (e) => {
         setform({ ...form, [e.target.name]: e.target.value })
@@ -122,7 +115,7 @@ const Manager = () => {
                 }
                 
             }
-            catch{
+            catch (error){
                 toast.error('❌ Failed to save/update credential!', {
                     className: 'bg-red-900 italic',
                     position: "top-center",
@@ -162,8 +155,10 @@ const Manager = () => {
         if(bolo){
             try {
                 await axios.delete(`/api/deletecredential`,{
+                    headers : {
                     email : user.email,
                     id : cred.id
+                    }
                    
                   });
                 fetchCredentials(user.email);
