@@ -1,6 +1,3 @@
-import React from 'react'
-
-
 const Footer = () => {
   return (
     <>
@@ -10,7 +7,7 @@ const Footer = () => {
         </div>
 
        <span className="top-skills-icons flex gap-2 ">
-                          Crafted with 
+                          Crafted With 
                           <img src="mongo.svg" alt="" />
                           <img src="express.svg" alt="" />
                           <img src="react.svg" alt="" />
