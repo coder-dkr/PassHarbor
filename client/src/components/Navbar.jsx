@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useNavigate} from 'react-router-dom'
 
 import { useAuth0 } from "@auth0/auth0-react";
@@ -7,7 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 const Navbar = () => {
   const navigate = useNavigate();
 
-  const { user, isAuthenticated, loginWithRedirect, logout ,getAccessTokenSilently } = useAuth0();
+  const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const [isOpen, setIsOpen] = useState(false);
   const sliderRef = useRef(null);
 
